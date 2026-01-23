@@ -50,7 +50,9 @@ int main() {
         .mutex = &mutex
     };
 
-    pthread_create(&t1, NULL, update_array, &args1);  // creating the threads
+    // creating the threads
+    
+    pthread_create(&t1, NULL, update_array, &args1);  
     pthread_create(&t2, NULL, update_array, &args2);
 
     pthread_join(t1, NULL);      // thread1 joins first after the main thread

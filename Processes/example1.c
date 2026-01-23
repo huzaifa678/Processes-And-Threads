@@ -56,7 +56,8 @@ void execute(char** args) {
     pid_t pid = fork();   // create the child process to execute the command  
 
     if (pid == 0) {
-        if (execvp(args[0], args) == -1) {   // execute the command finally 
+        if (execvp(args[0], args) == -1) {   // execute the command finally by replacing the memory space of the child process
+                                             // with the new program in this case the command given by the user
             perror("execvp");
         }
         exit(1);

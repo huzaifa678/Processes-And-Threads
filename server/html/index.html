@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>C HTTP Server - Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f2f2f2;
+    }
+    h1 {
+      color: #333;
+    }
+    input, select, button {
+      padding: 8px;
+      margin: 5px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid #ccc;
+      width: fit-content;
+    }
+  </style>
+</head>
+<body>
+  <h1>C Multi-Threaded Calculator</h1>
+
+  <form id="calcForm">
+    <label for="type">Operation:</label>
+    <select id="type" name="type">
+      <option value="derivative">Derivative</option>
+      <option value="integrate">Integral</option>
+    </select><br>
+
+    <label for="expr">Expression:</label>
+    <input type="text" id="expr" name="expr" placeholder="x^2" required><br>
+
+    <label for="a" id="labelA">From (for integral):</label>
+    <input type="number" id="a" name="a" value="0"><br>
+
+    <label for="b" id="labelB">To (for integral):</label>
+    <input type="number" id="b" name="b" value="10"><br>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    const form = document.getElementById("calcForm");
+    const resultDiv = document.getElementById("result");
+    const typeSelect = document.getElementById("type");
+    const labelA = document.getElementById("labelA");
+    const labelB = document.getElementById("labelB");
+    const inputA = document.getElementById("a");
+    const inputB = document.getElementById("b");
+
+    function toggleIntegralFields() {
+      if (typeSelect.value === "integrate") {
+        labelA.style.display = "inline";
+        labelB.style.display = "inline";
+        inputA.style.display = "inline";
+        inputB.style.display = "inline";
+      } else {
+        labelA.style.display = "none";
+        labelB.style.display = "none";
+        inputA.style.display = "none";
+        inputB.style.display = "none";
+      }
+    }
+
+    typeSelect.addEventListener("change", toggleIntegralFields);
+    toggleIntegralFields();
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const type = typeSelect.value;
+      const expr = document.getElementById("expr").value;
+      let url = `/calc?expr=`;
+
+      if (type === "derivative") {
+        url += `derivative:${encodeURIComponent(expr)}`;
+      } else {
+        const a = inputA.value;
+        const b = inputB.value;
+        url += `integrate:${encodeURIComponent(expr)},${a},${b}`;
+      }
+
+      try {
+        const response = await fetch(url);
+        const text = await response.text();
+        resultDiv.textContent = text;
+      } catch (err) {
+        resultDiv.textContent = "Error: " + err;
+      }
+    });
+  </script>
+</body>
+</html>

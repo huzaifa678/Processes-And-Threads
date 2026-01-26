@@ -56,7 +56,7 @@ int parse_http_request(char *raw, http_req_t *req) {    // parsing the raw HTTP 
     req->uri = strdup(uri);
     req->version = strdup(version);
 
-    // until all headers are pased in the line extract Host and User-Agent headers and break on empty line
+    // until all headers are parsed in the line extract Host and User-Agent headers and break on empty line
     while ((line = strtok_r(NULL, CRLF, &saveptr))) {
         if (strlen(line) == 0) break;
 

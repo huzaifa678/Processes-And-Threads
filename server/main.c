@@ -33,12 +33,12 @@ int main(void) {
     printf("Listening on http://localhost:8080\n");
 
     while (server_running) {
-        fd_set set;
-        FD_ZERO(&set);
-        FD_SET(server_sock, &set);
+        fd_set set;  // file descriptor set for select
+        FD_ZERO(&set);  // initialize the set
+        FD_SET(server_sock, &set); // add the server socket to the set
 
-        struct timeval timeout = {1, 0}; 
-        int ready = select(server_sock + 1, &set, NULL, NULL, &timeout);
+        struct timeval timeout = {1, 0};  // timeout of 1 second for select
+        int ready = select(server_sock + 1, &set, NULL, NULL, &timeout); // select call to monitor the server socket for incoming connections
         if (ready > 0) {
             int *client = malloc(sizeof(int));   // allocating memory for the client socket fd
             *client = accept(server_sock, NULL, NULL); // accepting the client connection

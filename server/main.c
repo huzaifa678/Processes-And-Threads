@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "socket.h"
-#include "signal.h"
+#include "signal_handler.h"
 #include "server.h"
 #include "cal.h"
 

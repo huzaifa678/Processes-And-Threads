@@ -180,7 +180,7 @@ int handle_client(int client_sock) {
         char *response = create_http_response(&msg, &res);
         send(client_sock, response, strlen(response), 0);
 
-        // finallt cleaning up
+        // finally cleaning up
         cleanup(&msg);
         cleanup(&response);
 
